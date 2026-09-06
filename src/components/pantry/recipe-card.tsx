@@ -35,7 +35,10 @@ export function RecipeCard({
             {recipe.title}
           </Link>
         </h3>
-        <Badge tone={ready ? 'success' : missing.length <= 2 ? 'warning' : 'neutral'}>
+        <Badge
+          tone={ready ? 'success' : missing.length <= 2 ? 'warning' : 'neutral'}
+          className="shrink-0 whitespace-nowrap"
+        >
           {ready ? 'Ready to cook' : `${missing.length} missing`}
         </Badge>
       </div>

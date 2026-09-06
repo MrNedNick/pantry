@@ -112,6 +112,11 @@ The app needs a Node server — Vercel is the path of least resistance and
 npx vercel --prod
 ```
 
+Set `NEXT_PUBLIC_SITE_URL` to the deployed origin (e.g.
+`https://pantry.vercel.app`). It is what puts the live link in the footer and
+gives the recipe pages an absolute `rel=canonical`; without it both are left
+out rather than pointed at localhost.
+
 Any host that runs `next start` works too:
 
 ```bash

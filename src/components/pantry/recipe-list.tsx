@@ -39,6 +39,8 @@ export async function RecipeList({
   }
 
   const nothingReady = have.length > 0 && ready.length === 0
+  // Enough to browse without turning the page into a wall of cards.
+  const visible = matched.slice(0, 24)
 
   return (
     <>
@@ -55,6 +57,9 @@ export async function RecipeList({
         {have.length === 0
           ? `${matched.length} recipes, sorted by how few ingredients they need.`
           : `${ready.length} of ${matched.length} recipes need nothing else.`}
+        {matched.length > visible.length
+          ? ` Showing the closest ${visible.length}.`
+          : ''}
       </p>
       {nothingReady ? (
         <div className="mt-4">
@@ -68,7 +73,7 @@ export async function RecipeList({
       ) : null}
 
       <ul className="mt-4 grid gap-4 @md:grid-cols-2 @4xl:grid-cols-3">
-        {matched.slice(0, 24).map((match) => (
+        {visible.map((match) => (
           <li key={match.recipe.id} className="min-w-0">
             <RecipeCard match={match} have={have} picked={picked} />
           </li>

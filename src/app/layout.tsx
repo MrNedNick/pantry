@@ -5,6 +5,7 @@ import { site } from '@/content/site'
 import './globals.css'
 
 export const metadata: Metadata = {
+  ...(site.demo ? { metadataBase: new URL(site.demo) } : {}),
   title: {
     default: `${site.name} — ${site.tagline.toLowerCase()}`,
     template: `%s — ${site.name}`,

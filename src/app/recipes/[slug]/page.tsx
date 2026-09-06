@@ -6,6 +6,7 @@ import { Badge } from '@/components/badge/badge'
 import { BackToResults } from '@/components/pantry/back-to-results'
 import { PantryAwareIngredients } from '@/components/pantry/pantry-aware-ingredients'
 import { PickRecipeButton } from '@/components/pantry/pick-recipe-button'
+import { site } from '@/content/site'
 import { getKitchenSlugs, getRecipeBySlug } from '@/lib/pantry/source'
 
 /**
@@ -46,7 +47,9 @@ export async function generateMetadata({
   return {
     title: recipe.title,
     description: recipe.summary,
-    alternates: { canonical: `/recipes/${recipe.slug}` },
+    // Only once there is an origin to resolve it against — a canonical
+    // pointing at localhost is worse than none.
+    alternates: site.demo ? { canonical: `/recipes/${recipe.slug}` } : undefined,
   }
 }
 

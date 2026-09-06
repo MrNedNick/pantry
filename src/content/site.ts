@@ -4,8 +4,12 @@ export const site = {
   tagline: 'Cook from what you already have',
   repo: 'https://github.com/MrNedNick/pantry',
   readme: 'https://github.com/MrNedNick/pantry#readme',
-  /** Filled in once the demo is deployed; the footer hides the link until then. */
-  demo: '',
+  /**
+   * The deployed origin, set at build time via `NEXT_PUBLIC_SITE_URL`. Empty
+   * until the app is deployed: the footer hides its link and the pages leave
+   * out a canonical rather than pointing one at localhost.
+   */
+  demo: process.env.NEXT_PUBLIC_SITE_URL ?? '',
 
   hero: {
     eyebrow: 'Recipe matching, computed on the server',
