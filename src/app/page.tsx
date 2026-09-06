@@ -5,6 +5,10 @@ import { PantryPersistence } from '@/components/pantry/pantry-persistence'
 import { RecipeList } from '@/components/pantry/recipe-list'
 import { RecipeListSkeleton } from '@/components/pantry/recipe-list-skeleton'
 import {
+  ShoppingList,
+  ShoppingListSkeleton,
+} from '@/components/pantry/shopping-list'
+import {
   parseHave,
   parsePicked,
   type RawSearchParams,
@@ -39,6 +43,17 @@ export default async function HomePage({
             <IngredientPicker have={have} />
           </Suspense>
         </div>
+
+        {picked.length > 0 ? (
+          <div className="mt-12">
+            <Suspense
+              key={`list-${picked.join(',')}-${have.join(',')}`}
+              fallback={<ShoppingListSkeleton />}
+            >
+              <ShoppingList pickedSlugs={picked} have={have} />
+            </Suspense>
+          </div>
+        ) : null}
 
         <section aria-labelledby="results-heading" className="mt-12 @container">
           <h2

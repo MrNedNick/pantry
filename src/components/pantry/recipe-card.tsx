@@ -1,5 +1,7 @@
+import { Suspense } from 'react'
 import Link from 'next/link'
 import { Badge } from '@/components/badge/badge'
+import { PickRecipeButton } from '@/components/pantry/pick-recipe-button'
 import { INGREDIENTS_BY_ID } from '@/data/ingredients'
 import type { MatchedRecipe } from '@/lib/pantry/types'
 import { buildQuery } from '@/lib/pantry/url-state'
@@ -65,6 +67,12 @@ export function RecipeCard({
         {recipe.minutes} min · serves {recipe.servings} ·{' '}
         {recipe.source === 'kitchen' ? 'kitchen set' : 'TheMealDB'}
       </p>
+
+      <div className="pt-3">
+        <Suspense fallback={null}>
+          <PickRecipeButton slug={recipe.slug} size="sm" />
+        </Suspense>
+      </div>
     </article>
   )
 }

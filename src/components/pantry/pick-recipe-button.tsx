@@ -2,7 +2,7 @@
 
 import { useOptimistic, useTransition } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { Button } from '@/components/button/button'
+import { Button, type ButtonSize } from '@/components/button/button'
 import { PICKED_PARAM, toggle } from '@/lib/pantry/url-state'
 
 function pickedFrom(value: string | null): string[] {
@@ -13,7 +13,13 @@ function pickedFrom(value: string | null): string[] {
 }
 
 /** Adds or removes this recipe from the shopping selection held in the URL. */
-export function PickRecipeButton({ slug }: { slug: string }) {
+export function PickRecipeButton({
+  slug,
+  size = 'md',
+}: {
+  slug: string
+  size?: ButtonSize
+}) {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [pending, startTransition] = useTransition()
@@ -39,6 +45,7 @@ export function PickRecipeButton({ slug }: { slug: string }) {
   return (
     <Button
       variant={isPicked ? 'outline' : 'primary'}
+      size={size}
       onClick={commit}
       loading={pending}
     >

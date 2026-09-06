@@ -4,25 +4,8 @@ import { useSearchParams } from 'next/navigation'
 import { Badge } from '@/components/badge/badge'
 import { INGREDIENTS_BY_ID } from '@/data/ingredients'
 import type { RecipeIngredient } from '@/lib/pantry/types'
+import { formatAmount } from '@/lib/pantry/format'
 import { HAVE_PARAM } from '@/lib/pantry/url-state'
-
-const UNIT_LABELS: Record<RecipeIngredient['unit'], string> = {
-  g: 'g',
-  ml: 'ml',
-  tbsp: 'tbsp',
-  tsp: 'tsp',
-  piece: '',
-  clove: 'clove',
-  pinch: 'pinch',
-}
-
-export function formatAmount(item: RecipeIngredient): string {
-  const unit = UNIT_LABELS[item.unit]
-  const amount = Number.isInteger(item.amount)
-    ? String(item.amount)
-    : item.amount.toFixed(2).replace(/\.?0+$/, '')
-  return unit ? `${amount} ${unit}` : `${amount} ×`
-}
 
 /**
  * The recipe itself is the same for everybody, so the page around this is
