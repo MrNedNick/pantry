@@ -1,3 +1,4 @@
+import { ButtonLink } from '@/components/button/button'
 import { Container } from '@/components/site/container'
 import { site } from '@/content/site'
 
@@ -26,18 +27,12 @@ export function Hero() {
           {hero.subtitle}
         </p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-          <a
-            href={hero.primaryCta.href}
-            className="inline-flex h-12 items-center justify-center rounded-md bg-accent px-6 text-base font-medium text-white shadow-sm transition-colors hover:bg-accent-hover"
-          >
+          <ButtonLink href={hero.primaryCta.href} size="lg">
             {hero.primaryCta.label}
-          </a>
-          <a
-            href={hero.secondaryCta.href}
-            className="inline-flex h-12 items-center justify-center rounded-md border border-border bg-surface px-6 text-base font-medium transition-colors hover:bg-surface-raised"
-          >
+          </ButtonLink>
+          <ButtonLink href={hero.secondaryCta.href} size="lg" variant="outline">
             {hero.secondaryCta.label}
-          </a>
+          </ButtonLink>
         </div>
         <p className="mt-5 max-w-xl text-sm text-text-muted">{hero.note}</p>
       </Container>
