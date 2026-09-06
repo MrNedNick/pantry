@@ -17,3 +17,6 @@ npm-debug.log*
 .vercel
 .idea/
 .vscode/
+
+# Local tooling config — never part of the project's own history.
+.claude/
