@@ -1,5 +1,7 @@
 'use client'
 
+import { Button } from '@/components/button/button'
+
 const STORAGE_KEY = 'pantry:theme'
 
 /**
@@ -23,23 +25,15 @@ export function ThemeToggle() {
   }
 
   return (
-    <button
-      type="button"
-      onClick={toggle}
-      className="flex size-9 items-center justify-center rounded-md border border-border text-text-muted transition-colors hover:bg-surface-raised hover:text-text"
-    >
+    <Button variant="outline" size="md" onClick={toggle} className="w-10 px-0">
       <span className="dark:hidden">
-        <span aria-hidden="true" className="text-sm leading-none">
-          ☾
-        </span>
+        <span aria-hidden="true">☾</span>
         <span className="sr-only">Switch to dark theme</span>
       </span>
       <span className="hidden dark:inline">
-        <span aria-hidden="true" className="text-sm leading-none">
-          ☀
-        </span>
+        <span aria-hidden="true">☀</span>
         <span className="sr-only">Switch to light theme</span>
       </span>
-    </button>
+    </Button>
   )
 }
