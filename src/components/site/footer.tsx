@@ -3,7 +3,7 @@ import { Container } from '@/components/site/container'
 
 export function Footer() {
   return (
-    <footer className="mt-16 border-t border-border py-8 text-sm text-text-muted">
+    <footer className="border-t border-border py-8 text-sm text-text-muted">
       <Container className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p>
           {site.name} — {site.tagline.toLowerCase()}.

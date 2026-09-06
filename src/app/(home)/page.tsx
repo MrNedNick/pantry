@@ -1,6 +1,9 @@
 import { Suspense } from 'react'
 import { Container } from '@/components/site/container'
+import { Hero } from '@/components/site/hero'
+import { HowItWorks } from '@/components/site/how-it-works'
 import { SectionBoundary } from '@/components/site/section-boundary'
+import { UnderTheHood } from '@/components/site/under-the-hood'
 import { IngredientPicker } from '@/components/pantry/ingredient-picker'
 import { PantryPersistence } from '@/components/pantry/pantry-persistence'
 import { RecipeList } from '@/components/pantry/recipe-list'
@@ -30,16 +33,10 @@ export default async function HomePage({
         <PantryPersistence />
       </Suspense>
 
-      <Container className="py-10 sm:py-14">
-        <h1 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-          Cook from what you already have
-        </h1>
-        <p className="mt-4 max-w-prose text-text-muted">
-          Tick off what is in your kitchen. The list comes back sorted by how
-          little is missing, so the thing you can cook tonight is at the top.
-        </p>
+      <Hero />
 
-        <div className="mt-10">
+      <Container className="py-12 sm:py-16">
+        <div id="pantry" className="scroll-mt-20">
           <Suspense fallback={null}>
             <IngredientPicker have={have} />
           </Suspense>
@@ -88,6 +85,9 @@ export default async function HomePage({
           </SectionBoundary>
         </section>
       </Container>
+
+      <HowItWorks />
+      <UnderTheHood />
     </main>
   )
 }
