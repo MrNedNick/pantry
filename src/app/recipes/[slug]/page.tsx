@@ -18,6 +18,14 @@ export const revalidate = 3600
 /** A slug that was not pre-rendered — a remote recipe — is rendered on demand. */
 export const dynamicParams = true
 
+/*
+ * There is deliberately no `loading.tsx` for this route. A loading boundary
+ * flushes the shell before the page has looked the recipe up, and once the
+ * shell is out the status is fixed at 200 — an unknown slug would answer OK
+ * and only then paint "no such recipe". The lookup here is a local array or a
+ * cached fetch, so the boundary bought little and cost the status code.
+ */
+
 /**
  * Only the recipes that ship with the app are known at build time. The remote
  * ones are not pre-rendered on purpose: the build should not depend on someone

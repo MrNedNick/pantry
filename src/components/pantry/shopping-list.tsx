@@ -4,6 +4,7 @@ import { buildShoppingList } from '@/lib/pantry/match'
 import { formatAmount } from '@/lib/pantry/format'
 import { ShareLink } from '@/components/pantry/share-link'
 import { getRecipes } from '@/lib/pantry/source'
+import { SectionFailure } from '@/components/site/section-boundary'
 
 /**
  * What is left to buy for the picked recipes: the pantry is subtracted first,
@@ -20,7 +21,12 @@ export async function ShoppingList({
 }) {
   // Fetched here rather than in the page, so the shell is not held up waiting
   // for it — this component sits behind its own loading boundary.
-  const recipes = await getRecipes()
+  let recipes
+  try {
+    recipes = await getRecipes()
+  } catch {
+    return <SectionFailure label="The shopping list" />
+  }
   const picked = recipes.filter((recipe) => pickedSlugs.includes(recipe.slug))
   if (picked.length === 0) return null
 

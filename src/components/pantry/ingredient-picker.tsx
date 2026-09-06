@@ -4,6 +4,7 @@ import { useMemo, useOptimistic, useState, useTransition } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Button } from '@/components/button/button'
 import { Checkbox } from '@/components/checkbox/checkbox'
+import { EmptyState } from '@/components/empty-state/empty-state'
 import { Input } from '@/components/input/input'
 import { INGREDIENTS_BY_CATEGORY } from '@/data/ingredients'
 import { HAVE_PARAM, toggle } from '@/lib/pantry/url-state'
@@ -106,9 +107,17 @@ export function IngredientPicker({ have }: { have: readonly string[] }) {
       </div>
 
       {groups.length === 0 ? (
-        <p className="mt-6 text-sm text-text-muted">
-          Nothing in the catalogue matches “{query}”.
-        </p>
+        <div className="mt-6">
+          <EmptyState
+            title={`Nothing matches “${query}”`}
+            description="The catalogue holds 67 everyday ingredients. Try a shorter word, or clear the box to see all of them."
+            action={
+              <Button variant="outline" size="sm" onClick={() => setQuery('')}>
+                Clear the search
+              </Button>
+            }
+          />
+        </div>
       ) : null}
     </section>
   )

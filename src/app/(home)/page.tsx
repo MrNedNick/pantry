@@ -1,5 +1,6 @@
 import { Suspense } from 'react'
 import { Container } from '@/components/site/container'
+import { SectionBoundary } from '@/components/site/section-boundary'
 import { IngredientPicker } from '@/components/pantry/ingredient-picker'
 import { PantryPersistence } from '@/components/pantry/pantry-persistence'
 import { RecipeList } from '@/components/pantry/recipe-list'
@@ -46,12 +47,13 @@ export default async function HomePage({
 
         {picked.length > 0 ? (
           <div className="mt-12">
-            <Suspense
+            <SectionBoundary
               key={`list-${picked.join(',')}-${have.join(',')}`}
-              fallback={<ShoppingListSkeleton />}
+              label="The shopping list"
+              skeleton={<ShoppingListSkeleton />}
             >
               <ShoppingList pickedSlugs={picked} have={have} />
-            </Suspense>
+            </SectionBoundary>
           </div>
         ) : null}
 
@@ -62,6 +64,14 @@ export default async function HomePage({
           >
             What you can cook
           </h2>
+
+          {have.length === 0 ? (
+            <p className="mb-4 rounded-md border border-dashed border-border px-4 py-3 text-sm text-text-muted">
+              Nothing ticked yet, so this is every recipe with the shortest
+              ones first. Tick what is in your kitchen above and the list
+              reorders around what you can actually cook tonight.
+            </p>
+          ) : null}
           {/*
             Everything above this point is rendered and sent straight away; the
             list waits on two recipe sources, so it streams in behind a
@@ -69,9 +79,13 @@ export default async function HomePage({
             `key` restarts the boundary when the pantry changes, so a new
             search shows the skeleton again rather than stale results.
           */}
-          <Suspense key={have.join(',')} fallback={<RecipeListSkeleton />}>
+          <SectionBoundary
+            key={have.join(',')}
+            label="The recipe list"
+            skeleton={<RecipeListSkeleton />}
+          >
             <RecipeList have={have} picked={picked} />
-          </Suspense>
+          </SectionBoundary>
         </section>
       </Container>
     </main>

@@ -1,7 +1,10 @@
 import type { Recipe, RecipeIngredient, Unit } from '@/lib/pantry/types'
 import { resolveIngredientId } from '@/lib/pantry/ingredient-names'
 
-const BASE = 'https://www.themealdb.com/api/json/v1/1'
+/** Overridable so tests — and a quick check of the degraded path — can point
+ *  this somewhere else without touching the code. */
+const BASE =
+  process.env.THEMEALDB_BASE ?? 'https://www.themealdb.com/api/json/v1/1'
 
 /** Letters to pull. Two is plenty for a demo and keeps the request small. */
 const LETTERS = ['c', 's'] as const
@@ -101,8 +104,11 @@ function toRecipe(meal: RawMeal): Recipe | null {
 }
 
 /**
- * Second source of recipes. Cached by the framework for an hour; a failure is
- * not fatal — the kitchen set alone is a working app.
+ * Second source of recipes. Cached by the framework for an hour.
+ *
+ * Throws when every request failed, so the caller can tell "the source is
+ * down" from "the source answered and had nothing for us" — the page says so
+ * out loud in the first case instead of quietly showing a shorter list.
  */
 export async function fetchRemoteRecipes(): Promise<Recipe[]> {
   const results = await Promise.allSettled(
@@ -115,6 +121,10 @@ export async function fetchRemoteRecipes(): Promise<Recipe[]> {
       }),
     ),
   )
+
+  if (results.every((result) => result.status === 'rejected')) {
+    throw new Error('themealdb: every request failed')
+  }
 
   const recipes: Recipe[] = []
   const seenSlugs = new Set<string>()
