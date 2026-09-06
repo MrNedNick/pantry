@@ -3,6 +3,7 @@ import { Container } from '@/components/site/container'
 import { IngredientPicker } from '@/components/pantry/ingredient-picker'
 import { PantryPersistence } from '@/components/pantry/pantry-persistence'
 import { RecipeList } from '@/components/pantry/recipe-list'
+import { RecipeListSkeleton } from '@/components/pantry/recipe-list-skeleton'
 import {
   parseHave,
   parsePicked,
@@ -46,7 +47,16 @@ export default async function HomePage({
           >
             What you can cook
           </h2>
-          <RecipeList have={have} picked={picked} />
+          {/*
+            Everything above this point is rendered and sent straight away; the
+            list waits on two recipe sources, so it streams in behind a
+            skeleton of the same shape instead of holding up the page.
+            `key` restarts the boundary when the pantry changes, so a new
+            search shows the skeleton again rather than stale results.
+          */}
+          <Suspense key={have.join(',')} fallback={<RecipeListSkeleton />}>
+            <RecipeList have={have} picked={picked} />
+          </Suspense>
         </section>
       </Container>
     </main>
