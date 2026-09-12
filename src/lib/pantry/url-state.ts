@@ -2,6 +2,7 @@ import { INGREDIENTS_BY_ID } from '@/data/ingredients'
 
 export const HAVE_PARAM = 'have'
 export const PICKED_PARAM = 'picked'
+export const SHOW_PARAM = 'show'
 
 /** Raw `searchParams` as Next hands them to a page. */
 export type RawSearchParams = Record<string, string | string[] | undefined>
@@ -33,11 +34,21 @@ export function parsePicked(params: RawSearchParams): string[] {
   return [...seen]
 }
 
+/** Whether the URL asks for the full recipe list instead of the short one. */
+export function parseShowAll(params: RawSearchParams): boolean {
+  return params[SHOW_PARAM] === 'all'
+}
+
 /** Builds the querystring for a given pantry and selection. */
-export function buildQuery(have: readonly string[], picked: readonly string[]): string {
+export function buildQuery(
+  have: readonly string[],
+  picked: readonly string[],
+  showAll = false,
+): string {
   const params = new URLSearchParams()
   if (have.length > 0) params.set(HAVE_PARAM, [...have].sort().join(','))
   if (picked.length > 0) params.set(PICKED_PARAM, [...picked].join(','))
+  if (showAll) params.set(SHOW_PARAM, 'all')
   const query = params.toString()
   return query ? `?${query}` : ''
 }

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { buildQuery, parseHave, parsePicked, toggle } from './url-state'
+import { buildQuery, parseHave, parsePicked, parseShowAll, toggle } from './url-state'
 
 describe('parseHave', () => {
   it('reads a shared link back into a pantry', () => {
@@ -39,6 +39,21 @@ describe('buildQuery', () => {
 
   it('stays empty when there is nothing to share', () => {
     expect(buildQuery([], [])).toBe('')
+  })
+
+  it('carries the show-all flag when asked', () => {
+    const query = buildQuery(['egg'], [], true)
+    expect(parseShowAll(Object.fromEntries(new URLSearchParams(query)))).toBe(
+      true,
+    )
+  })
+})
+
+describe('parseShowAll', () => {
+  it('only recognises the exact value', () => {
+    expect(parseShowAll({ show: 'all' })).toBe(true)
+    expect(parseShowAll({ show: 'true' })).toBe(false)
+    expect(parseShowAll({})).toBe(false)
   })
 })
 
