@@ -54,11 +54,16 @@ export function IngredientPicker({ have }: { have: readonly string[] }) {
         <h2 id="pantry-heading" className="text-lg font-semibold tracking-tight">
           What is in your kitchen?
         </h2>
-        <p aria-live="polite" className="text-sm text-text-muted">
-          {optimisticHave.length === 0
-            ? 'Nothing ticked yet'
-            : `${optimisticHave.length} ticked`}
-          {pending ? ' · updating…' : ''}
+        <p aria-live="polite" className="flex items-baseline gap-x-3 text-sm text-text-muted">
+          <span>
+            {optimisticHave.length === 0
+              ? 'Nothing ticked yet'
+              : `${optimisticHave.length} ticked`}
+            {pending ? ' · updating…' : ''}
+          </span>
+          <a href="#results-heading" className="rounded-sm underline sm:hidden">
+            Jump to results ↓
+          </a>
         </p>
       </div>
 

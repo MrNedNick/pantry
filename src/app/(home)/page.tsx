@@ -57,7 +57,7 @@ export default async function HomePage({
         <section aria-labelledby="results-heading" className="mt-12 @container">
           <h2
             id="results-heading"
-            className="mb-4 text-lg font-semibold tracking-tight"
+            className="mb-4 scroll-mt-20 text-lg font-semibold tracking-tight"
           >
             What you can cook
           </h2>
