@@ -1,8 +1,10 @@
+import Link from 'next/link'
 import { EmptyState } from '@/components/empty-state/empty-state'
 import { SectionFailure } from '@/components/site/section-boundary'
 import { RecipeCard } from '@/components/pantry/recipe-card'
 import { getRecipeData } from '@/lib/pantry/source'
 import { matchRecipes } from '@/lib/pantry/match'
+import { buildQuery } from '@/lib/pantry/url-state'
 
 /**
  * A server component that awaits the recipe sources. It is rendered inside a
@@ -11,9 +13,11 @@ import { matchRecipes } from '@/lib/pantry/match'
 export async function RecipeList({
   have,
   picked,
+  showAll,
 }: {
   have: readonly string[]
   picked: readonly string[]
+  showAll: boolean
 }) {
   // Caught here rather than left to a boundary: React answers a server
   // component that throws mid-stream by re-rendering it in the browser, and
@@ -39,8 +43,9 @@ export async function RecipeList({
   }
 
   const nothingReady = have.length > 0 && ready.length === 0
-  // Enough to browse without turning the page into a wall of cards.
-  const visible = matched.slice(0, 24)
+  // Enough to browse without turning the page into a wall of cards, unless
+  // the URL already asked for the rest.
+  const visible = showAll ? matched : matched.slice(0, 24)
 
   return (
     <>
@@ -79,6 +84,17 @@ export async function RecipeList({
           </li>
         ))}
       </ul>
+
+      {matched.length > visible.length ? (
+        <div className="mt-6 flex justify-center">
+          <Link
+            href={`/${buildQuery(have, picked, true)}#results-heading`}
+            className="rounded-sm text-sm font-medium text-text underline underline-offset-2"
+          >
+            Show all {matched.length} recipes
+          </Link>
+        </div>
+      ) : null}
     </>
   )
 }

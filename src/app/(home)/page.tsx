@@ -15,6 +15,7 @@ import {
 import {
   parseHave,
   parsePicked,
+  parseShowAll,
   type RawSearchParams,
 } from '@/lib/pantry/url-state'
 
@@ -26,6 +27,7 @@ export default async function HomePage({
   const params = await searchParams
   const have = parseHave(params)
   const picked = parsePicked(params)
+  const showAll = parseShowAll(params)
 
   return (
     <main id="main">
@@ -77,11 +79,11 @@ export default async function HomePage({
             search shows the skeleton again rather than stale results.
           */}
           <SectionBoundary
-            key={have.join(',')}
+            key={`${have.join(',')}-${showAll}`}
             label="The recipe list"
             skeleton={<RecipeListSkeleton />}
           >
-            <RecipeList have={have} picked={picked} />
+            <RecipeList have={have} picked={picked} showAll={showAll} />
           </SectionBoundary>
         </section>
       </Container>
